@@ -627,6 +627,8 @@ endif;
 
   common.ZipWriteStr(output_zip, "system/build.prop",
                      ""+input_zip.read("SYSTEM/build.prop"))
+  common.ZipWriteStr(output_zip, "vendor/build.prop",
+                     ""+input_zip.read("SYSTEM/vendor/build.prop"))
   common.ZipWriteStr(output_zip, "META-INF/org/lineageos/releasekey",
                      ""+input_zip.read("META/releasekey.txt"))
 
