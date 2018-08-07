@@ -742,6 +742,29 @@ def WriteFullOTAPackage(input_zip, output_file):
 
   assert HasRecoveryPatch(input_zip)
 
+  script.Print("                                                   ");
+  script.Print("                                                   ");
+  script.Print("                             .'':                  ");
+  script.Print("                       .-\\\"\\\"\\\"\\\"-.'       ");
+  script.Print("                     .\\\"     .' \\\".            ");
+  script.Print("                     :    .'    :                  ");
+  script.Print("                     :  .'      :                  ");
+  script.Print("                   .'.'.      .'                   ");
+  script.Print("                   ''   ``````                     ");
+  script.Print("                                                   ");
+  script.Print("                                                   ");
+  script.Print("        ,   .                   ,---.,---.         ");
+  script.Print("        |\\  |,---..  ,.   .,---.|   |`---.        ");
+  script.Print("        | \\ ||---' >< |   |`---.|   |    |        ");
+  script.Print("        `  `'`---''  ``---'`---'`---'`---'         ");
+  script.Print("                                                   ");
+  script.Print("                                                   ");
+  script.Print("                    NexusOS 9.0                    ");
+  script.Print("                                                   ");
+  script.Print("        Custom Android 9.0-ROM based on AOSP       ");
+  script.Print("                                                   ");
+  script.Print("                                                   ");
+
   # Assertions (e.g. downgrade check, device properties check).
   # ts = target_info.GetBuildProp("ro.build.date.utc")
   # ts_text = target_info.GetBuildProp("ro.build.date")
@@ -796,9 +819,10 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
     # Stage 3/3: Make changes.
     script.Comment("Stage 3/3")
 
-  # Dump fingerprints
-  script.Print("Target: {}".format(target_info.fingerprint))
-
+  script.Print(" [*] Unmounting /system/...")
+  script.Print(" ")
+  script.AppendExtra("ifelse(is_mounted(\"/system\"), unmount(\"/system\"));")
+ 
   device_specific.FullOTA_InstallBegin()
 
   system_progress = 0.75
@@ -817,6 +841,9 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
   # has the effect of writing new data from the package to the entire
   # partition, but lets us reuse the updater code that writes incrementals to
   # do it.
+  script.Print(" [*] Installing /system/...")
+  script.Print(" ")
+ 
   system_tgt = common.GetSparseImage("system", OPTIONS.input_tmp, input_zip,
                                      allow_shared_blocks)
   system_tgt.ResetFileMap()
@@ -827,6 +854,8 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
       "boot.img", "boot.img", OPTIONS.input_tmp, "BOOT")
 
   if HasVendorPartition(input_zip):
+    script.Print(" [*] Installing /vendor/...")
+    script.Print(" ")
     script.ShowProgress(0.1, 0)
 
     vendor_tgt = common.GetSparseImage("vendor", OPTIONS.input_tmp, input_zip,
@@ -840,6 +869,8 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
   common.CheckSize(boot_img.data, "boot.img", target_info)
   common.ZipWriteStr(output_zip, "boot.img", boot_img.data)
 
+  script.Print(" [*] Installing boot.img...")
+  script.Print(" ")
   script.ShowProgress(0.05, 5)
   script.WriteRawImage("/boot", "boot.img")
 
@@ -852,6 +883,8 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
   script.UnmountAll()
 
   if OPTIONS.wipe_user_data:
+    script.Print(" [*] Wiping /data/...")
+    script.Print(" ")
     script.ShowProgress(0.1, 10)
     script.FormatPartition("/data")
 
@@ -871,6 +904,9 @@ reboot_now("%(bcb_dev)s", "");
 endif;
 endif;
 """ % bcb_dev)
+
+  script.Print(" Finished!")
+  script.Print(" ")
 
   script.SetProgress(1)
   script.AddToZip(input_zip, output_zip, input_path=OPTIONS.updater_binary)
