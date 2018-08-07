@@ -41,3 +41,6 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_NAME := aosp_x86_arm
 PRODUCT_DEVICE := generic_x86_arm
+
+# NexusOS-specific files
+$(call inherit-product, vendor/nexus/product.mk)

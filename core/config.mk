@@ -233,6 +233,8 @@ ifneq ($(LINEAGE_BUILD),)
 include vendor/lineage/config/BoardConfigLineage.mk
 endif
 
+include vendor/nexus/board.mk
+
 # The build system exposes several variables for where to find the kernel
 # headers:
 #   TARGET_DEVICE_KERNEL_HEADERS is automatically created for the current
