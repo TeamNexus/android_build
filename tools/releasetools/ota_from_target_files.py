@@ -770,7 +770,7 @@ def WriteFullOTAPackage(input_zip, output_file):
   # ts_text = target_info.GetBuildProp("ro.build.date")
   # script.AssertOlderBuild(ts, ts_text)
 
-  target_info.WriteDeviceAssertions(script, OPTIONS.oem_no_mount)
+  # target_info.WriteDeviceAssertions(script, OPTIONS.oem_no_mount)
   device_specific.FullOTA_Assertions()
 
   # Two-step package strategy (in chronological order, which is *not*
