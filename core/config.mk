@@ -982,9 +982,6 @@ $(error Should not define BOARD_VENDORIMAGE_PARTITION_SIZE and \
 endif
 endif
 
-endif # PRODUCT_USE_DYNAMIC_PARTITION_SIZE
-
-ifeq ($(PRODUCT_BUILD_SUPER_PARTITION),true)
 ifneq ($(BOARD_PRODUCTIMAGE_PARTITION_SIZE),)
 ifneq ($(BOARD_PRODUCTIMAGE_PARTITION_RESERVED_SIZE),)
 $(error Should not define BOARD_PRODUCTIMAGE_PARTITION_SIZE and \
@@ -992,7 +989,7 @@ $(error Should not define BOARD_PRODUCTIMAGE_PARTITION_SIZE and \
 endif
 endif
 
-endif # PRODUCT_BUILD_SUPER_PARTITION
+endif # PRODUCT_USE_DYNAMIC_PARTITION_SIZE
 
 # ###############################################################
 # Set up final options.
